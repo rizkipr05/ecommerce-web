@@ -18,7 +18,11 @@
         @forelse ($sellers as $seller)
             <div class="store-card d-flex flex-column flex-md-row align-items-center gap-4">
                 <div class="border rounded-3 p-3" style="width: 140px; height: 140px; background:#f5f7f8; display:flex; align-items:center; justify-content:center;">
-                    <span class="text-muted">Logo</span>
+                    @if ($seller->profile_image_path)
+                        <img src="{{ asset('storage/' . $seller->profile_image_path) }}" alt="{{ $seller->name }}" class="img-fluid rounded-3" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+                    @else
+                        <span class="text-muted">Logo</span>
+                    @endif
                 </div>
                 <div class="flex-grow-1">
                     <h5 class="fw-bold mb-1">{{ $seller->name }}</h5>

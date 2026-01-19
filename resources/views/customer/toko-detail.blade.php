@@ -32,9 +32,12 @@
                     </div>
                     <h6 class="fw-bold">{{ $product->name }}</h6>
                     <div class="text-muted">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                    <form method="POST" action="{{ url('/keranjang/add/' . $product->id) }}">
+                    <form method="POST" action="{{ url('/keranjang/add/' . $product->id) }}" class="mt-3">
                         @csrf
-                        <button class="btn btn-success btn-sm mt-3 w-100">Checkout</button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-success btn-sm w-100" name="redirect" value="keranjang">Keranjang</button>
+                            <button class="btn btn-success btn-sm w-100" name="redirect" value="checkout">Checkout</button>
+                        </div>
                     </form>
                 </div>
             </div>

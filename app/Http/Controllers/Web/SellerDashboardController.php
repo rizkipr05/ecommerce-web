@@ -10,6 +10,7 @@ use App\Models\ShippingRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class SellerDashboardController extends Controller
 {
@@ -75,6 +76,43 @@ class SellerDashboardController extends Controller
             'title' => 'Master Data Ongkir',
             'rates' => $rates,
         ]);
+    }
+
+    public function profile(Request $request)
+    {
+        return view('seller.profile', [
+            'title' => 'Profil Seller',
+            'seller' => $request->user(),
+        ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $seller = $request->user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($seller->id),
+            ],
+            'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+        ]);
+
+        if ($request->hasFile('profile_image')) {
+            if ($seller->profile_image_path) {
+                Storage::disk('public')->delete($seller->profile_image_path);
+            }
+            $seller->profile_image_path = $request->file('profile_image')->store('profiles', 'public');
+        }
+
+        $seller->name = $validated['name'];
+        $seller->email = $validated['email'];
+        $seller->save();
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function storeSayuran(Request $request)

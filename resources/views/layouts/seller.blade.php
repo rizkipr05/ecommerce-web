@@ -7,6 +7,7 @@
             <h4 class="fw-bold mb-4 text-white">Seller</h4>
             <nav class="nav flex-column gap-2">
                 <a class="btn btn-light text-start {{ request()->is('seller/beranda') ? 'active' : '' }}" href="{{ url('/seller/beranda') }}">Beranda</a>
+                <a class="btn btn-light text-start {{ request()->is('seller/profil') ? 'active' : '' }}" href="{{ url('/seller/profil') }}">Profil</a>
                 <div class="sidebar-divider"></div>
                 <div class="sidebar-section">Master Data</div>
                 <a class="btn btn-light text-start {{ request()->is('seller/data-sayuran') ? 'active' : '' }}" href="{{ url('/seller/data-sayuran') }}">Data Sayuran</a>
@@ -37,9 +38,13 @@
                 <div class="fw-semibold text-muted">@yield('seller-title', 'Dashboard')</div>
                 <div class="d-flex align-items-center gap-2">
                     <span class="small text-muted">{{ auth()->user()->name }}</span>
-                    <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center" style="width:32px;height:32px;">
-                        <i class="bi bi-person-fill text-secondary"></i>
-                    </div>
+                    @if (auth()->user()->profile_image_path)
+                        <img src="{{ asset('storage/' . auth()->user()->profile_image_path) }}" alt="Foto Profil" class="rounded-circle" style="width:32px;height:32px;object-fit:cover;">
+                    @else
+                        <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center" style="width:32px;height:32px;">
+                            <i class="bi bi-person-fill text-secondary"></i>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="p-4">

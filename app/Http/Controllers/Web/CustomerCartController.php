@@ -58,7 +58,10 @@ class CustomerCartController extends Controller
         $cart['items'] = $items;
         $request->session()->put('cart', $cart);
 
-        return redirect('/checkout')->with('success', 'Produk ditambahkan ke keranjang.');
+        $redirectTarget = $request->input('redirect', 'checkout');
+        $redirectPath = $redirectTarget === 'keranjang' ? '/keranjang' : '/checkout';
+
+        return redirect($redirectPath)->with('success', 'Produk ditambahkan ke keranjang.');
     }
 
     public function update(Request $request, Product $product)

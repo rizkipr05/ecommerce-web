@@ -67,6 +67,8 @@ Route::middleware(['auth', 'role:admin'])->patch('/admin/sellers/{user}/deactiva
 Route::middleware(['auth', 'role:admin'])->patch('/admin/sellers/{user}/activate', [AdminDashboardController::class, 'activateSeller']);
 Route::middleware(['auth', 'role:admin'])->delete('/admin/sellers/{user}', [AdminDashboardController::class, 'deleteSeller']);
 Route::middleware(['auth', 'role:seller'])->get('/seller/beranda', [SellerDashboardController::class, 'beranda']);
+Route::middleware(['auth', 'role:seller'])->get('/seller/profil', [SellerDashboardController::class, 'profile']);
+Route::middleware(['auth', 'role:seller'])->patch('/seller/profil', [SellerDashboardController::class, 'updateProfile']);
 Route::middleware(['auth', 'role:seller'])->get('/seller/data-sayuran', [SellerDashboardController::class, 'dataSayuran']);
 Route::middleware(['auth', 'role:seller'])->post('/seller/data-sayuran', [SellerDashboardController::class, 'storeSayuran']);
 Route::middleware(['auth', 'role:seller'])->patch('/seller/data-sayuran/{product}', [SellerDashboardController::class, 'updateSayuran']);
