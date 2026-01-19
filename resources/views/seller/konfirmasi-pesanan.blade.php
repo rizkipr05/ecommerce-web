@@ -24,6 +24,9 @@
     <div class="table-responsive">
         @if (session('success'))
             <div class="alert alert-success m-3">{{ session('success') }}</div>
+            <script>
+                alert(@json(session('success')));
+            </script>
         @endif
         <table class="table table-striped mb-0">
             <thead>

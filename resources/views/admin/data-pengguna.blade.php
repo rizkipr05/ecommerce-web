@@ -51,6 +51,9 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Email</th>
+                            <th>Terdaftar</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,10 +62,38 @@
                                 <td>{{ $sellers->firstItem() + $index }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                                <td>
+                                    <span class="status-pill" style="background: {{ $user->is_active ? '#16a34a' : '#ef4444' }};">
+                                        {{ $user->is_active ? 'Aktif' : 'Nonaktif' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        @if ($user->is_active)
+                                            <form method="POST" action="{{ url('/admin/sellers/' . $user->id . '/deactivate') }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button class="btn btn-sm btn-outline-danger">Nonaktifkan</button>
+                                            </form>
+                                        @else
+                                            <form method="POST" action="{{ url('/admin/sellers/' . $user->id . '/activate') }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button class="btn btn-sm btn-outline-success">Aktifkan</button>
+                                            </form>
+                                        @endif
+                                        <form method="POST" action="{{ url('/admin/sellers/' . $user->id) }}" onsubmit="return confirm('Hapus akun seller ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-outline-dark">Hapus</button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center">Belum ada seller.</td>
+                                <td colspan="6" class="text-center">Belum ada seller.</td>
                             </tr>
                         @endforelse
                     </tbody>

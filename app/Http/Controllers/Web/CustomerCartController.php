@@ -58,7 +58,7 @@ class CustomerCartController extends Controller
         $cart['items'] = $items;
         $request->session()->put('cart', $cart);
 
-        return back()->with('success', 'Produk ditambahkan ke keranjang.');
+        return redirect('/checkout')->with('success', 'Produk ditambahkan ke keranjang.');
     }
 
     public function update(Request $request, Product $product)

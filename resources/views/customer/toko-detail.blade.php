@@ -34,7 +34,7 @@
                     <div class="text-muted">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
                     <form method="POST" action="{{ url('/keranjang/add/' . $product->id) }}">
                         @csrf
-                        <button class="btn btn-success btn-sm mt-3 w-100">Tambah ke Keranjang</button>
+                        <button class="btn btn-success btn-sm mt-3 w-100">Checkout</button>
                     </form>
                 </div>
             </div>

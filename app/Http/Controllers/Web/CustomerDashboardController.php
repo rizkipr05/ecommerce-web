@@ -10,7 +10,7 @@ class CustomerDashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::with('items.product')
+        $orders = Order::with(['items.product', 'review'])
             ->where('customer_id', $request->user()->id)
             ->orderByDesc('created_at')
             ->limit(10)

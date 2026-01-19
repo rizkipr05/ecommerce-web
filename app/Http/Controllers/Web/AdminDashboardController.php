@@ -124,4 +124,39 @@ class AdminDashboardController extends Controller
 
         return back();
     }
+
+    public function deactivateSeller(User $user)
+    {
+        if ($user->role !== User::ROLE_SELLER) {
+            abort(404);
+        }
+
+        $user->is_active = false;
+        $user->save();
+
+        return back();
+    }
+
+    public function activateSeller(User $user)
+    {
+        if ($user->role !== User::ROLE_SELLER) {
+            abort(404);
+        }
+
+        $user->is_active = true;
+        $user->save();
+
+        return back();
+    }
+
+    public function deleteSeller(User $user)
+    {
+        if ($user->role !== User::ROLE_SELLER) {
+            abort(404);
+        }
+
+        $user->delete();
+
+        return back();
+    }
 }

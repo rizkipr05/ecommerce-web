@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\CustomerSiteController;
 use App\Http\Controllers\Web\CustomerCartController;
 use App\Http\Controllers\Web\CustomerOrderWebController;
+use App\Http\Controllers\Web\ReviewController;
 use App\Http\Controllers\Web\CustomerDashboardController;
 use App\Http\Controllers\Web\SellerDashboardController;
 
@@ -20,9 +21,7 @@ use App\Http\Controllers\Web\SellerDashboardController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::redirect('/', '/beranda');
 
 Route::get('/beranda', [CustomerSiteController::class, 'beranda']);
 Route::get('/toko', [CustomerSiteController::class, 'toko']);
@@ -38,6 +37,7 @@ Route::middleware('auth')->get('/checkout', [CustomerCartController::class, 'che
 Route::middleware('auth')->post('/checkout', [CustomerCartController::class, 'placeOrder']);
 Route::middleware('auth')->get('/pesanan/{order}/bayar', [CustomerOrderWebController::class, 'uploadForm']);
 Route::middleware('auth')->post('/pesanan/{order}/bayar', [CustomerOrderWebController::class, 'upload']);
+Route::middleware('auth')->post('/pesanan/{order}/review', [ReviewController::class, 'store']);
 
 Route::get('/login', [AuthController::class, 'showLogin'])->defaults('role', 'customer');
 Route::post('/login', [AuthController::class, 'login'])->defaults('role', 'customer');
@@ -63,6 +63,9 @@ Route::middleware(['auth', 'role:admin'])->get('/admin/customer-reviews', [Admin
 Route::middleware(['auth', 'role:admin'])->patch('/admin/customers/{user}/deactivate', [AdminDashboardController::class, 'deactivateCustomer']);
 Route::middleware(['auth', 'role:admin'])->patch('/admin/customers/{user}/activate', [AdminDashboardController::class, 'activateCustomer']);
 Route::middleware(['auth', 'role:admin'])->delete('/admin/customers/{user}', [AdminDashboardController::class, 'deleteCustomer']);
+Route::middleware(['auth', 'role:admin'])->patch('/admin/sellers/{user}/deactivate', [AdminDashboardController::class, 'deactivateSeller']);
+Route::middleware(['auth', 'role:admin'])->patch('/admin/sellers/{user}/activate', [AdminDashboardController::class, 'activateSeller']);
+Route::middleware(['auth', 'role:admin'])->delete('/admin/sellers/{user}', [AdminDashboardController::class, 'deleteSeller']);
 Route::middleware(['auth', 'role:seller'])->get('/seller/beranda', [SellerDashboardController::class, 'beranda']);
 Route::middleware(['auth', 'role:seller'])->get('/seller/data-sayuran', [SellerDashboardController::class, 'dataSayuran']);
 Route::middleware(['auth', 'role:seller'])->post('/seller/data-sayuran', [SellerDashboardController::class, 'storeSayuran']);
